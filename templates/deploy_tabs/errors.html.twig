@@ -1,0 +1,5 @@
+<table>
+    {% for error in context.errors %}
+        <tr><td>{{ error.description }}</td></tr>
+    {% endfor %}
+</table>

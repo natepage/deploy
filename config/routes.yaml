@@ -1,0 +1,9 @@
+index:
+    path: /
+    controller: App\Controller\DeployController::index
+deploy:
+    path: /deploy
+    controller: App\Controller\DeployController::deploy
+show:
+    path: /deployment/{deploymentId}
+    controller: App\Controller\DeployController::show

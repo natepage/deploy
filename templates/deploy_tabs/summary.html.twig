@@ -1,0 +1,18 @@
+<table class="table">
+    <tr>
+        <th>Status</th>
+        <td>
+            <span class="badge badge-{{ context.errors|empty ? 'success' : 'danger' }}">
+                {{ context.errors|empty ? 'Succeed' : 'Failed' }}
+            </span>
+        </td>
+    </tr>
+    <tr>
+        <th>Date</th>
+        <td>{{ context.date|date('d/m/Y, H:i:s') }}</td>
+    </tr>
+    <tr>
+        <th>Duration</th>
+        <td>{{ context.duration|number_format(2) }} sec</td>
+    </tr>
+</table>

@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col">
+            <div class="card card-nav-tabs">
+                <div class="card-header card-header-{{ context.errors|empty ? 'success' : 'danger' }}">
+                    <div class="nav-tabs-navigation">
+                        <div class="nav-tabs-wrapper">
+                            <ul class="nav nav-tabs float-left" data-tabs="tabs">
+                                <li class="nav-item">
+                                    <a href="#summary" class="nav-link active" data-toggle="tab">
+                                        <i class="fa fa-receipt"></i><span class="ml-2">Summary</span>
+                                    </a>
+                                </li>
+                                {% if not context.errors|empty %}
+                                    <li class="nav-item">
+                                        <a href="#errors" class="nav-link" data-toggle="tab">
+                                            <i class="fa fa-bug"></i><span class="ml-2">Errors</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                <li class="nav-item">
+                                    <a href="#system" class="nav-link" data-toggle="tab">
+                                        <i class="fa fa-microchip"></i><span class="ml-2">System</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#config" class="nav-link" data-toggle="tab">
+                                        <i class="fa fa-cogs"></i><span class="ml-2">Config</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#commands" class="nav-link" data-toggle="tab">
+                                        <i class="fa fa-terminal"></i><span class="ml-2">Commands</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-tabs float-right">
+                                <li class="nav-item">
+                                    <a href="{{ url('index') }}" class="nav-link">
+                                        <i class="fa fa-home"></i> Deployments
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="summary">
+                            {% include 'deploy_tabs/summary.html.twig' %}
+                        </div>
+                        {% if not context.errors|empty %}
+                            <div class="tab-pane" id="errors">
+                                {% include 'deploy_tabs/errors.html.twig' %}
+                            </div>
+                        {% endif %}
+                        <div class="tab-pane" id="system">
+                            {% include 'deploy_tabs/system.html.twig' %}
+                        </div>
+                        <div class="tab-pane" id="config">
+                            {% include 'deploy_tabs/config.html.twig' %}
+                        </div>
+                        <div class="tab-pane" id="commands">
+                            {% include 'deploy_tabs/commands.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/commands.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,21 @@
+<div class="commands">
+    <div class="terminal-container">
+        <ol class="terminal">
+            {% for command in context.commands %}
+                <li {% if command.error %}class="terminal-error"{% endif %}>
+                    <div class="terminal-input" data-output="{{ command.uniqueId }}">
+                        <i class="terminal-input-icon fa fa-{{ command.error ? 'times' : 'check' }} terminal-{{ command.error ? 'error' : 'success' }}"></i>
+                        <span class="terminal-input-command">{{ command.command }}</span>
+                    </div>
+                    <div id="terminal-output-{{ command.uniqueId }}" class="terminal-output">
+                        {% for line in command.output %}
+                            <div class="terminal-output-line">{{ line }}</div>
+                        {% else %}
+                            <div class="terminal-output-line"><i>No output</i></div>
+                        {% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ol>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<table class="table">
+    {% for config, value in context.configuration.all %}
+        <tr>
+            <th>{{ config }}</th>
+            <td>
+                {% if value|is_type('bool') %}
+                    <span class="badge badge-{{ value ? 'success' : 'danger' }}">{{ value ? 'yes' : 'no' }}</span>
+                {% elseif value|empty %}
+                    <i>No value</i>
+                {% else %}
+                    {{ value|join(', ') }}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+</table>

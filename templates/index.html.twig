@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="card card-nav-tabs">
+        <div class="card-header card-header-info">
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <ul class="nav nav-tabs float-left">
+                        <li class="nav-item">
+                            <span class="nav-link">Deployments</span>
+                        </li>
+                    </ul>
+                    <ul class="nav nav-tabs float-right">
+                        <li class="nav-item">
+                            <a href="{{ url('deploy', {'access_token': access_token}) }}" class="nav-link">
+                                <i class="fa fa-play"></i> Deploy
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <table class="table deployments-table">
+                {% for deployment in deployments %}
+                    <tr class="deployments-line"
+                        onclick="window.location='{{ url('show', {'deploymentId': deployment.id}) }}'">
+                        <td class="deployments-cell">#{{ deployment.id }}</td>
+                        <td class="deployments-cell">
+                            <span class="badge badge-{{ deployment.status ? 'success' : 'danger' }}">
+                                {{ deployment.status ? 'Succeed' : 'Failed' }}
+                            </span>
+                        </td>
+                        <td class="deployments-cell">{{ deployment.date|date('d/m/Y, H:i:s') }}</td>
+                        <td class="deployments-cell">{{ deployment.duration|number_format(2) }} sec</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}

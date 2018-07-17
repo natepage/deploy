@@ -1,0 +1,14 @@
+<table class="table">
+    <tr>
+        <th>User</th>
+        <td>{{ context.system.currentUser }}</td>
+    </tr>
+    <tr>
+        <th>Binaries</th>
+        <td>
+            {% for binary, version in context.system.binaries %}
+                <p>{{ version }} <i>({{ binary }})</i></p>
+            {% endfor %}
+        </td>
+    </tr>
+</table>
