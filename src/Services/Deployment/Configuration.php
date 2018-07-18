@@ -210,8 +210,8 @@ class Configuration implements ConfigurationInterface
             'env' => [],
             'excludes' => ['.git'],
             'required_binaries' => ['git', 'rsync'],
-            'use_composer' => false,
-            'time_limit' => 30
+            'time_limit' => 30,
+            'use_composer' => false
         ]);
         $optionsResolver->setDefault('tmp_dir', function (Options $options): string {
             return \sprintf('/tmp/deploy-%s/', \md5($options['repository']));

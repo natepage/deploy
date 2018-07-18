@@ -3,4 +3,4 @@ twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
     globals:
-        access_token: '%env(SECURITY_ACCESS_TOKEN)%'
+        access_token: '%security.access_token%'

@@ -1,0 +1,13 @@
+parameters:
+    config:
+        env:
+            GOOGLE_DISTANCE_MATRIX_API_KEY: ~
+            GOOGLE_GEOCODING_API_KEY: ~
+            GOOGLE_MAPS_JS_API_KEY: ~
+            GOOGLE_PLACES_API_KEY: ~
+        repository: https://github.com/natepage/my-repository.git
+        target_dir: /var/www/my-site.com/
+        use_composer: true
+
+    security.access_token: MyAccessToken
+    security.header: X-Hub-Signature
