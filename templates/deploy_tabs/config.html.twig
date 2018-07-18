@@ -5,10 +5,19 @@
             <td>
                 {% if value|is_type('bool') %}
                     <span class="badge badge-{{ value ? 'success' : 'danger' }}">{{ value ? 'yes' : 'no' }}</span>
+                {% elseif value|is_type('array') and not value|empty %}
+                    {% for k, v in value %}
+                        {% if k|is_type('int') %}
+                            {{ v }}
+                        {% else %}
+                            {{ k }}: {{ v|empty ? '~' : v }}
+                        {% endif %}
+                        <br>
+                    {% endfor %}
                 {% elseif value|empty %}
                     <i>No value</i>
                 {% else %}
-                    {{ value|join(', ') }}
+                    {{ value }}
                 {% endif %}
             </td>
         </tr>
