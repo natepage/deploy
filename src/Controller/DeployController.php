@@ -61,13 +61,16 @@ class DeployController extends Controller
     public function deploy(): Response
     {
         if ($this->permissionChecker->isGranted() === false) {
-            return $this->render('access_denied.html.twig');
+            return $this->render('access_denied.html.twig', [], new Response(null, Response::HTTP_BAD_REQUEST));
         }
 
         $this->context->deploy();
         $this->saveDeployment($this->context);
 
-        return $this->render('deploy.html.twig', ['context' => $this->context]);
+        return $this->render('deploy.html.twig', ['context' => $this->context], new Response(
+            null,
+            empty($this->context->getErrors()) ? Response::HTTP_OK : Response::HTTP_BAD_REQUEST
+        ));
     }
 
     /**
