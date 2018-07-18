@@ -5,8 +5,9 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     config:
-        repository: '%env(DEPLOY_REPOSITORY)%'
-        target_dir: '%env(DEPLOY_TARGET_DIR)%'
+        env: '%env(json:DEPLOY_ENV)%'
+        repository: '%env(string:DEPLOY_REPOSITORY)%'
+        target_dir: '%env(string:DEPLOY_TARGET_DIR)%'
         use_composer: '%env(bool:DEPLOY_USE_COMPOSER)%'
 
 services:
