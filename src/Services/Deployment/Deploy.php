@@ -6,10 +6,13 @@ namespace App\Services\Deployment;
 use App\Services\Deployment\Interfaces\ConfigurationInterface;
 use App\Services\Deployment\Interfaces\ContextInterface;
 use App\Services\Deployment\Interfaces\SystemInterface;
+use App\Services\Deployment\Traits\CanCountTime;
 use DateTime;
 
 class Deploy implements ContextInterface
 {
+    use CanCountTime;
+
     /**
      * @var array
      */
@@ -34,21 +37,6 @@ class Deploy implements ContextInterface
      * @var \App\Services\Deployment\Interfaces\SystemInterface
      */
     private $system;
-
-    /**
-     * @var int
-     */
-    private $timeDuration = -1;
-
-    /**
-     * @var int
-     */
-    private $timeEnd;
-
-    /**
-     * @var int
-     */
-    private $timeStart;
 
     /**
      * Deploy constructor.
@@ -85,7 +73,7 @@ class Deploy implements ContextInterface
      */
     public function deploy(): void
     {
-        $this->timeStart = \microtime(true);
+        $this->startCounting();
 
         // Check for required binaries
         $this->system->getBinaries();
@@ -117,16 +105,15 @@ class Deploy implements ContextInterface
             break;
         }
 
-        $this->timeEnd = \microtime(true);
-        $this->timeDuration = $this->timeEnd - $this->timeStart;
+        $this->stopCounting();
     }
 
     /**
-     * Return list of deployment commands.
+     * Return list of deployment terminal items.
      *
      * @return array
      */
-    public function getCommands(): array
+    public function getTerminalItems(): array
     {
         return $this->commands;
     }
@@ -149,16 +136,6 @@ class Deploy implements ContextInterface
     public function getDate(): DateTime
     {
         return $this->date;
-    }
-
-    /**
-     * Return deployment duration.
-     *
-     * @return float
-     */
-    public function getDuration(): float
-    {
-        return $this->timeDuration;
     }
 
     /**

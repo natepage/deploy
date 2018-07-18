@@ -42,12 +42,19 @@
 }
 
 .terminal-input {
-    margin: 0.5em 0 0 0;
-    padding: 0.4em 0.5em;
+    margin: .5em 0 0 0;
+    padding: .4em 5.5em .5em .4em;
     background-color: rgba(0,0,0,.4);
     border: solid 1px rgba(240,240,240,.3);
     line-height: 1.3;
     cursor: pointer;
+    position: relative;
+}
+
+.terminal-input-duration {
+    position: absolute;
+    top: 0;
+    right: 3px;
 }
 
 .terminal-input-icon {

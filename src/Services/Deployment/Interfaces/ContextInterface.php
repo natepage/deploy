@@ -24,11 +24,11 @@ interface ContextInterface
     public function deploy(): void;
 
     /**
-     * Return list of deployment commands.
+     * Return list of deployment terminal items.
      *
      * @return array
      */
-    public function getCommands(): array;
+    public function getTerminalItems(): array;
 
     /**
      * Return deployment configuration.
