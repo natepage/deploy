@@ -5,8 +5,11 @@ parameters:
             GOOGLE_GEOCODING_API_KEY: ~
             GOOGLE_MAPS_JS_API_KEY: ~
             GOOGLE_PLACES_API_KEY: ~
+        excludes:
+            - .env
+            - .git
         repository: https://github.com/natepage/my-repository.git
-        target_dir: /var/www/my-site.com/
+        target_dir: /var/www/html/my-site.com/
         use_composer: true
 
     security.access_token: MyAccessToken
