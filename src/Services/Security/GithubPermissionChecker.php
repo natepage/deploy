@@ -28,6 +28,6 @@ class GithubPermissionChecker extends PermissionChecker
             return false;
         }
 
-        return $header === \hash_hmac('sha1', $this->request->getContent(), $this->accessToken);
+        return $header === \sprintf('sha1=%s', \hash_hmac('sha1', $this->request->getContent(), $this->accessToken));
     }
 }
