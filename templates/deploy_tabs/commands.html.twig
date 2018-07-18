@@ -7,7 +7,7 @@
                         <i class="terminal-input-icon fa fa-{{ item.error ? 'times' : 'check' }} terminal-{{ item.error ? 'error' : 'success' }}"></i>
                         <span class="terminal-input-command">{{ item.input }}</span>
                         <div class="terminal-input-duration">
-                            <i>({{ item.duration|number_format(2) }}s)</i>
+                            <i>{{ item.duration|number_format(2) }}s</i>
                         </div>
                     </div>
                     <div id="terminal-output-{{ item.uniqueId }}" class="terminal-output">

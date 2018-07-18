@@ -55,7 +55,7 @@ trait CanCountTime
      *
      * @return void
      */
-    protected function startCounting(): void
+    public function startCounting(): void
     {
         $this->start = \microtime(true);
         $this->duration = -1;
@@ -66,7 +66,7 @@ trait CanCountTime
      *
      * @return void
      */
-    protected function stopCounting(): void
+    public function stopCounting(): void
     {
         $this->end = \microtime(true);
         $this->duration = $this->end - $this->start;

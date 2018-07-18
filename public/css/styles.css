@@ -54,7 +54,12 @@
 .terminal-input-duration {
     position: absolute;
     top: 0;
-    right: 3px;
+    right: 0;
+    padding: .5em;
+    background-color: rgba(60,60,60,.4);
+    border: solid rgba(240,240,240,.3);
+    border-width: 0 0 1px 1px;
+    line-height: 1;
 }
 
 .terminal-input-icon {

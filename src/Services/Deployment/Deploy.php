@@ -14,11 +14,6 @@ class Deploy implements ContextInterface
     use CanCountTime;
 
     /**
-     * @var array
-     */
-    private $commands = [];
-
-    /**
      * @var \App\Services\Deployment\Interfaces\ConfigurationInterface
      */
     private $configuration;
@@ -37,6 +32,11 @@ class Deploy implements ContextInterface
      * @var \App\Services\Deployment\Interfaces\SystemInterface
      */
     private $system;
+
+    /**
+     * @var array
+     */
+    private $terminalItems = [];
 
     /**
      * Deploy constructor.
@@ -75,6 +75,13 @@ class Deploy implements ContextInterface
     {
         $this->startCounting();
 
+        $this->terminalItems[] = $prepare = new TerminalItem('Prepare deployment', [
+            'Check required binaries',
+            'Set environment values',
+            'Initiate deployment commands'
+        ]);
+        $prepare->startCounting();
+
         // Check for required binaries
         $this->system->getBinaries();
         // Set ENV values
@@ -82,40 +89,34 @@ class Deploy implements ContextInterface
         // Initiate commands
         $this->initCommands();
 
+        $prepare->stopCounting();
+
         // Check backup dir
         if (empty($this->errors) === false || $this->system->checkBackupDir() === false) {
             return;
         }
 
-        foreach ($this->commands as $command) {
-            /** @var Command $command */
+        foreach ($this->terminalItems as $item) {
+            if (($item instanceof Command) === false) {
+                continue;
+            }
 
             $this->resetTimeLimit();
             $this->useTmpDir();
 
             // If command is successful, continue
-            if ($command->exec()->isError() === false) {
+            if ($item->exec()->isError() === false) {
                 continue;
             }
 
             if ($this->configuration->isCleanUp()) {
-                $this->commands['clean_up']->exec();
+                $this->terminalItems['clean_up']->exec();
             }
 
             break;
         }
 
         $this->stopCounting();
-    }
-
-    /**
-     * Return list of deployment terminal items.
-     *
-     * @return array
-     */
-    public function getTerminalItems(): array
-    {
-        return $this->commands;
     }
 
     /**
@@ -159,6 +160,16 @@ class Deploy implements ContextInterface
     }
 
     /**
+     * Return list of deployment terminal items.
+     *
+     * @return array
+     */
+    public function getTerminalItems(): array
+    {
+        return $this->terminalItems;
+    }
+
+    /**
      * Add deployment command.
      *
      * @param string $command
@@ -167,7 +178,7 @@ class Deploy implements ContextInterface
      */
     private function addCommand(string $command): self
     {
-        $this->commands[] = new Command($command);
+        $this->terminalItems[] = new Command($command);
 
         return $this;
     }
@@ -237,12 +248,15 @@ class Deploy implements ContextInterface
         ));
 
         if ($this->configuration->isCleanUp()) {
-            $this->commands['clean_up'] = new Command(\sprintf('rm -rf %s', $this->configuration->getTmpDir()));
+            $this->terminalItems['clean_up'] = new Command(\sprintf('rm -rf %s', $this->configuration->getTmpDir()));
         }
 
-        foreach ($this->commands as $command) {
-            /** @var Command $command */
-            $command->setContext($this);
+        foreach ($this->terminalItems as $item) {
+            if (($item instanceof Command) === false) {
+                continue;
+            }
+
+            $item->setContext($this);
         }
     }
 
