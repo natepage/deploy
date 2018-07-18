@@ -13,4 +13,3 @@ parameters:
         use_composer: true
 
     security.access_token: MyAccessToken
-    security.header: X-Hub-Signature

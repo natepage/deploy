@@ -11,29 +11,22 @@ class PermissionChecker implements PermissionCheckerInterface
     /**
      * @var string
      */
-    private $accessToken;
-
-    /**
-     * @var string
-     */
-    private $header;
+    protected $accessToken;
 
     /**
      * @var null|\Symfony\Component\HttpFoundation\Request
      */
-    private $request;
+    protected $request;
 
     /**
      * PermissionChecker constructor.
      *
      * @param string $accessToken
-     * @param string $header
      * @param \Symfony\Component\HttpFoundation\RequestStack $requestStack
      */
-    public function __construct(string $accessToken, string $header, RequestStack $requestStack)
+    public function __construct(string $accessToken, RequestStack $requestStack)
     {
         $this->accessToken = $accessToken;
-        $this->header = $header;
         $this->request = $requestStack->getCurrentRequest();
     }
 
@@ -44,11 +37,6 @@ class PermissionChecker implements PermissionCheckerInterface
      */
     public function isGranted(): bool
     {
-        if ($this->request === null) {
-            return false;
-        }
-
-        return $this->request->headers->get($this->header) === $this->accessToken
-            || $this->request->get('access_token') === $this->accessToken;
+        return $this->request !== null && $this->request->get('access_token') === $this->accessToken;
     }
 }
